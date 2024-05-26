@@ -32,23 +32,26 @@ db.serialize(() => {
     )`);
 });
 
+// Register a user
 app.post('/api/users/register', (req, res) => {
     const { firstName, lastName, email, phoneNumber, password, role } = req.body;
-    db.run(`INSERT INTO users (firstName, lastName, email, phoneNumber, password, role) VALUES (?, ?, ?, ?, ?, ?)`, [firstName, lastName, email, phoneNumber, password, role], function (err) {
-        if (err) {
-            return res.status(400).send('Error registering user');
-        }
-        const userId = this.lastID;
-        let redirectUrl;
-        if (role === 'buyer') {
-            redirectUrl = '/buyer';
-        } else if (role === 'seller') {
-            redirectUrl = '/seller-dashboard';
-        }
-        res.json({ userId, redirectUrl });
-    });
+    db.run(`INSERT INTO users (firstName, lastName, email, phoneNumber, password, role) VALUES (?, ?, ?, ?, ?, ?)`,
+        [firstName, lastName, email, phoneNumber, password, role], function (err) {
+            if (err) {
+                return res.status(400).send('Error registering user');
+            }
+            const userId = this.lastID;
+            let redirectUrl;
+            if (role === 'buyer') {
+                redirectUrl = '/buyer';
+            } else if (role === 'seller') {
+                redirectUrl = '/seller-dashboard';
+            }
+            res.json({ userId, redirectUrl });
+        });
 });
 
+// Login a user
 app.post('/api/users/login', (req, res) => {
     const { email, password } = req.body;
     db.get(`SELECT * FROM users WHERE email = ? AND password = ?`, [email, password], (err, row) => {
@@ -59,27 +62,19 @@ app.post('/api/users/login', (req, res) => {
     });
 });
 
+// Add a property
 app.post('/api/properties', (req, res) => {
-    const { place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges } = req.body;
-    const sellerId = req.user.id; // Assuming you have authentication middleware to get the seller ID
-    db.run(`INSERT INTO properties (place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId) VALUES (?, ?, ?, ?, ?, ?, ?)`, [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId], function (err) {
-        if (err) {
-            return res.status(400).send('Error adding property');
-        }
-        res.json({ propertyId: this.lastID });
-    });
+    const { place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId } = req.body;
+    db.run(`INSERT INTO properties (place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId], function (err) {
+            if (err) {
+                return res.status(400).send('Error adding property');
+            }
+            res.json({ propertyId: this.lastID });
+        });
 });
 
-
-app.get('/api/properties', (req, res) => {
-    db.all(`SELECT * FROM properties`, (err, rows) => {
-        if (err) {
-            return res.status(400).send('Error fetching properties');
-        }
-        res.json(rows);
-    });
-});
-
+// Fetch properties for a seller
 app.get('/api/properties/seller/:sellerId', (req, res) => {
     const { sellerId } = req.params;
     db.all(`SELECT * FROM properties WHERE sellerId = ?`, [sellerId], (err, rows) => {
@@ -90,16 +85,33 @@ app.get('/api/properties/seller/:sellerId', (req, res) => {
     });
 });
 
+// Fetch a single property
 app.get('/api/properties/:id', (req, res) => {
     const { id } = req.params;
-    db.get(`SELECT properties.*, users.firstName, users.lastName, users.email, users.phoneNumber FROM properties JOIN users ON properties.sellerId = users.id WHERE properties.id = ?`, [id], (err, row) => {
-        if (err || !row) {
-            return res.status(400).send('Error fetching property');
-        }
-        res.json(row);
-    });
+    db.get(`SELECT properties.*, users.firstName, users.lastName, users.email, users.phoneNumber 
+            FROM properties JOIN users ON properties.sellerId = users.id WHERE properties.id = ?`,
+        [id], (err, row) => {
+            if (err || !row) {
+                return res.status(400).send('Error fetching property');
+            }
+            res.json(row);
+        });
 });
 
+// Update a property
+app.put('/api/properties/:id', (req, res) => {
+    const { id } = req.params;
+    const { place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges } = req.body;
+    db.run(`UPDATE properties SET place = ?, area = ?, bedrooms = ?, bathrooms = ?, nearbyHospitals = ?, nearbyColleges = ? WHERE id = ?`,
+        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, id], function (err) {
+            if (err) {
+                return res.status(400).send('Error updating property');
+            }
+            res.sendStatus(200);
+        });
+});
+
+// Delete a property
 app.delete('/api/properties/:id', (req, res) => {
     const { id } = req.params;
     db.run(`DELETE FROM properties WHERE id = ?`, [id], function (err) {
