@@ -85,6 +85,16 @@ app.get('/api/properties/seller/:sellerId', (req, res) => {
     });
 });
 
+// Fetch all properties
+app.get('/api/properties', (req, res) => {
+    db.all(`SELECT * FROM properties`, (err, rows) => {
+        if (err) {
+            return res.status(400).send('Error fetching properties');
+        }
+        res.json(rows);
+    });
+});
+
 // Fetch a single property
 app.get('/api/properties/:id', (req, res) => {
     const { id } = req.params;
