@@ -1,25 +1,32 @@
-import React, { useEffect, useState } from 'react';
+// src/components/PropertyDetails.js
+import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const PropertyDetails = () => {
-    const { id } = useParams();
     const [property, setProperty] = useState(null);
-    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const userId = localStorage.getItem('userId');
 
-    useEffect(() => {
-        const fetchProperty = async () => {
-            try {
-                const res = await axios.get(`/properties/${id}`);
-                setProperty(res.data);
-            } catch (err) {
-                setError('Error fetching property details');
-            }
-        };
-        fetchProperty();
+    const fetchProperty = useCallback(async () => {
+        const res = await axios.get(`/properties/${id}`);
+        setProperty(res.data);
     }, [id]);
 
-    if (error) return <div>{error}</div>;
+    useEffect(() => {
+        fetchProperty();
+    }, [fetchProperty]);
+
+    const handleInterested = () => {
+        if (!userId) {
+            alert('Please login to see the owner details.');
+            navigate('/login');
+        } else {
+            alert(`Seller Details: ${property.firstName} ${property.lastName}, Email: ${property.email}, Phone: ${property.phoneNumber}`);
+        }
+    };
+
     if (!property) return <div>Loading...</div>;
 
     return (
@@ -30,7 +37,7 @@ const PropertyDetails = () => {
             <p>Bathrooms: {property.bathrooms}</p>
             <p>Nearby Hospitals: {property.nearbyHospitals}</p>
             <p>Nearby Colleges: {property.nearbyColleges}</p>
-            <button onClick={() => alert(`Seller Details: ${property.firstName} ${property.lastName}, Email: ${property.email}, Phone: ${property.phoneNumber}`)}>I am interested</button>
+            <button onClick={handleInterested}>I am interested</button>
         </div>
     );
 };

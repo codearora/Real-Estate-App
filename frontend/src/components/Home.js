@@ -1,12 +1,15 @@
+// src/components/Home.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './Home.css'; // Import CSS file
+import './Home.css';
+import Logout from './Logout';
 
 const Home = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const userId = localStorage.getItem('userId');
 
     const fetchProperties = async () => {
         try {
@@ -32,15 +35,21 @@ const Home = () => {
     }
 
     return (
-        <div className="container">
-            <h1 className="title">Welcome to our Real Estate Platform!</h1>
-            <p className="subtitle">Explore available properties and find your dream home.</p>
-            <Link to="/login" className="link">Login</Link>
-            <Link to="/register" className="link">Register</Link>
+        <div className="home-container">
+            <h1>Welcome to our Real Estate Platform!</h1>
+            <p>Explore available properties and find your dream home.</p>
+            {!userId ? (
+                <>
+                    <Link className="login-btn" to="/login">Login</Link>
+                    <Link className="login-btn" to="/register">Register</Link>
+                </>
+            ) : (
+                <Logout />
+            )}
             <h2>Available Properties</h2>
-            <ul className="properties">
+            <ul>
                 {properties.map(property => (
-                    <li key={property.id} className="property">
+                    <li key={property.id}>
                         <Link to={`/property/${property.id}`}>{property.place} - {property.area} sqft</Link>
                     </li>
                 ))}
