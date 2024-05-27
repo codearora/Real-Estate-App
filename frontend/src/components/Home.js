@@ -10,7 +10,7 @@ const Home = () => {
 
     const fetchProperties = async () => {
         try {
-            const res = await axios.get('/properties');
+            const res = await axios.get('/api/properties');
             setProperties(res.data);
             setLoading(false);
         } catch (error) {
@@ -41,7 +41,10 @@ const Home = () => {
             <ul>
                 {properties.map(property => (
                     <li key={property.id}>
-                        <Link to={`/property/${property.id}`}>{property.place} - {property.area} sqft</Link>
+                        <Link to={`/property/${property.id}`}>
+                            {property.place} - {property.area} sqft
+                            {property.image && <img src={`/${property.image}`} alt={property.place} style={{ width: '100px', height: '100px' }} />}
+                        </Link>
                     </li>
                 ))}
             </ul>
