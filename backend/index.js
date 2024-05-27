@@ -1,32 +1,12 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 const app = express();
 const db = new sqlite3.Database('database.db');
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Serve static files from the 'uploads' directory
-
-// Configure multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadDir = 'uploads/';
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
-        }
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-
-const upload = multer({ storage });
 
 // Create tables and seed data
 db.serialize(() => {
@@ -48,7 +28,6 @@ db.serialize(() => {
         nearbyHospitals TEXT,
         nearbyColleges TEXT,
         sellerId INTEGER NOT NULL,
-        image TEXT,
         FOREIGN KEY (sellerId) REFERENCES users(id)
     )`);
 });
@@ -83,12 +62,11 @@ app.post('/api/users/login', (req, res) => {
     });
 });
 
-// Add a property with image upload
-app.post('/api/properties', upload.single('image'), (req, res) => {
+// Add a property
+app.post('/api/properties', (req, res) => {
     const { place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId } = req.body;
-    const image = req.file ? req.file.path : null;
-    db.run(`INSERT INTO properties (place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId, image], function (err) {
+    db.run(`INSERT INTO properties (place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, sellerId], function (err) {
             if (err) {
                 return res.status(400).send('Error adding property');
             }
@@ -131,12 +109,11 @@ app.get('/api/properties/:id', (req, res) => {
 });
 
 // Update a property
-app.put('/api/properties/:id', upload.single('image'), (req, res) => {
+app.put('/api/properties/:id', (req, res) => {
     const { id } = req.params;
     const { place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges } = req.body;
-    const image = req.file ? req.file.path : req.body.image; // Keep existing image if no new image is uploaded
-    db.run(`UPDATE properties SET place = ?, area = ?, bedrooms = ?, bathrooms = ?, nearbyHospitals = ?, nearbyColleges = ?, image = ? WHERE id = ?`,
-        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, image, id], function (err) {
+    db.run(`UPDATE properties SET place = ?, area = ?, bedrooms = ?, bathrooms = ?, nearbyHospitals = ?, nearbyColleges = ? WHERE id = ?`,
+        [place, area, bedrooms, bathrooms, nearbyHospitals, nearbyColleges, id], function (err) {
             if (err) {
                 return res.status(400).send('Error updating property');
             }
