@@ -1,7 +1,7 @@
-// src/components/Home.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import './Home.css'; // Import CSS file
 
 const Home = () => {
     const [properties, setProperties] = useState([]);
@@ -32,15 +32,15 @@ const Home = () => {
     }
 
     return (
-        <div>
-            <h1>Welcome to our Real Estate Platform!</h1>
-            <p>Explore available properties and find your dream home.</p>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+        <div className="container">
+            <h1 className="title">Welcome to our Real Estate Platform!</h1>
+            <p className="subtitle">Explore available properties and find your dream home.</p>
+            <Link to="/login" className="link">Login</Link>
+            <Link to="/register" className="link">Register</Link>
             <h2>Available Properties</h2>
-            <ul>
+            <ul className="properties">
                 {properties.map(property => (
-                    <li key={property.id}>
+                    <li key={property.id} className="property">
                         <Link to={`/property/${property.id}`}>{property.place} - {property.area} sqft</Link>
                     </li>
                 ))}

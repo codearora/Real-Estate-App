@@ -1,0 +1,101 @@
+/* Home.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('https://i.pinimg.com/736x/32/59/75/3259751eb4e94902b24f302c29da7ddb.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #000;
+    /* Darker text color */
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #000;
+    /* Darker text color */
+}
+
+.subtitle {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #000;
+    /* Darker text color */
+}
+
+.link {
+    display: inline-block;
+    margin: 10px;
+    text-decoration: none;
+    color: #000;
+    /* Darker text color */
+    background-color: #fff;
+    /* White background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Smooth transition */
+}
+
+.link:hover {
+    background-color: #000;
+    /* Dark background on hover */
+    color: #fff;
+    /* White text on hover */
+}
+
+.properties {
+    list-style: none;
+    padding: 0;
+}
+
+.property {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.property a {
+    text-decoration: none;
+    color: #000;
+    /* Darker text color */
+}
+
+.property a:hover {
+    color: #007bff;
+    /* Blue color on hover */
+}
+
+.login-btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    /* White text color */
+    background-color: #007bff;
+    /* Button background color */
+    padding: 15px 30px;
+    border-radius: 50px;
+    /* Large border radius for a rounded shape */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    /* Shadow effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition */
+}
+
+.login-btn:hover {
+    transform: translateY(-3px);
+    /* Move button up slightly on hover */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    /* Increase shadow effect on hover */
+}
