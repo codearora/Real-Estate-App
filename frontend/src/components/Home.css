@@ -3,11 +3,11 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-image: url('https://i.pinimg.com/736x/32/59/75/3259751eb4e94902b24f302c29da7ddb.jpg');
     background-size: cover;
     background-position: center;
-    color: #000;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,22 +19,23 @@ body {
     margin: 20px;
     padding: 40px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
 }
 
 .title {
     font-size: 48px;
     margin-bottom: 20px;
-    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .subtitle {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #666;
+    font-weight: bold;
+    color: #f0f0f0;
 }
 
 .link {
@@ -58,8 +59,10 @@ body {
 
 .properties-title {
     font-size: 36px;
-    margin-bottom: 20px;
-    color: #333;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #fff;
 }
 
 .properties {
@@ -71,9 +74,9 @@ body {
 }
 
 .property {
-    background-color: #f8f9fa;
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     font-size: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -97,9 +100,16 @@ body {
     margin: 0 0 10px;
     font-size: 24px;
     color: #007bff;
+    text-transform: uppercase;
 }
 
 .property p {
     margin: 5px 0;
-    color: #555;
+    color: #eee;
+}
+
+.property-details {
+    font-size: 16px;
+    margin-top: 20px;
+    color: #ccc;
 }

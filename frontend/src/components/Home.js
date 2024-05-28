@@ -1,3 +1,5 @@
+// Home.js
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -33,25 +35,27 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1 className="title">Welcome to our Real Estate Platform!</h1>
-            <p className="subtitle">Explore available properties and find your dream home.</p>
+            <h1 className="title">Welcome to the India's most trusted Real Estate Hub !</h1>
+            <p className="subtitle">Find your dream home hassle-free.</p>
             <Link to="/login" className="link">Login</Link>
             <Link to="/register" className="link">Register</Link>
-            <h2 className="properties-title">Available Properties</h2>
-            <div className="properties">
+            <h2 className="properties-title">Properties</h2>
+            <ul className="properties">
                 {properties.map(property => (
-                    <div key={property.id} className="property">
+                    <li key={property.id} className="property">
                         <Link to={`/property/${property.id}`} className="property-link">
-                            <div className="property-content">
-                                <h3>{property.place}</h3>
-                                <p>{property.area} sqft</p>
-                                <p>{property.price}</p>
+                            <h3>{property.place}</h3>
+                            <p>Area: {property.area} sqft</p>
+                            <p>Price: ${property.price}</p>
+                            <div className="property-details">
                                 <p>{property.description}</p>
+                                <p>Bedrooms: {property.bedrooms}</p>
+                                <p>Bathrooms: {property.bathrooms}</p>
                             </div>
                         </Link>
-                    </div>
+                    </li>
                 ))}
-            </div>
+            </ul>
         </div>
     );
 };
