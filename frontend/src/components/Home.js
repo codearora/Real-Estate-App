@@ -1,15 +1,12 @@
-// src/components/Home.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import './Home.css';
-import Logout from './Logout';
+import './Home.css'; // Import CSS file
 
 const Home = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userId = localStorage.getItem('userId');
 
     const fetchProperties = async () => {
         try {
@@ -35,25 +32,26 @@ const Home = () => {
     }
 
     return (
-        <div className="home-container">
-            <h1>Welcome to our Real Estate Platform!</h1>
-            <p>Explore available properties and find your dream home.</p>
-            {!userId ? (
-                <>
-                    <Link className="login-btn" to="/login">Login</Link>
-                    <Link className="login-btn" to="/register">Register</Link>
-                </>
-            ) : (
-                <Logout />
-            )}
-            <h2>Available Properties</h2>
-            <ul>
+        <div className="container">
+            <h1 className="title">Welcome to our Real Estate Platform!</h1>
+            <p className="subtitle">Explore available properties and find your dream home.</p>
+            <Link to="/login" className="link">Login</Link>
+            <Link to="/register" className="link">Register</Link>
+            <h2 className="properties-title">Available Properties</h2>
+            <div className="properties">
                 {properties.map(property => (
-                    <li key={property.id}>
-                        <Link to={`/property/${property.id}`}>{property.place} - {property.area} sqft</Link>
-                    </li>
+                    <div key={property.id} className="property">
+                        <Link to={`/property/${property.id}`} className="property-link">
+                            <div className="property-content">
+                                <h3>{property.place}</h3>
+                                <p>{property.area} sqft</p>
+                                <p>{property.price}</p>
+                                <p>{property.description}</p>
+                            </div>
+                        </Link>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

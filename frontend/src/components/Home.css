@@ -8,91 +8,98 @@ body {
     background-size: cover;
     background-position: center;
     color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .container {
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: 20px;
     padding: 40px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    margin-top: 100px;
+    backdrop-filter: blur(10px);
 }
 
 .title {
     font-size: 48px;
-    margin-bottom: 30px;
-    color: #000;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .subtitle {
-    font-size: 30px;
-    margin-bottom: 40px;
-    color: #000;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #666;
 }
 
-.link,
-.login-btn {
+.link {
     display: inline-block;
-    margin: 20px;
+    margin: 10px;
     text-decoration: none;
     color: #fff;
     background-color: #007bff;
-    padding: 20px 40px;
+    padding: 15px 30px;
     border-radius: 50px;
-    font-size: 20px;
+    font-size: 18px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-.link:hover,
-.login-btn:hover {
+.link:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     background-color: #0056b3;
 }
 
+.properties-title {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
 .properties {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
     list-style: none;
     padding: 0;
 }
 
 .property {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 30px;
-    margin-bottom: 30px;
+    background-color: #f8f9fa;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    font-size: 24px;
-}
-
-.property a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-}
-
-.property a:hover {
-    color: #0056b3;
-}
-
-.logout-btn {
-    display: inline-block;
-    margin: 20px;
-    text-decoration: none;
-    color: #fff;
-    background-color: #dc3545;
-    padding: 20px 40px;
-    border-radius: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     font-size: 20px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.logout-btn:hover {
+.property:hover {
     transform: translateY(-3px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-    background-color: #c82333;
+}
+
+.property-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.property-content {
+    text-align: left;
+}
+
+.property h3 {
+    margin: 0 0 10px;
+    font-size: 24px;
+    color: #007bff;
+}
+
+.property p {
+    margin: 5px 0;
+    color: #555;
 }
