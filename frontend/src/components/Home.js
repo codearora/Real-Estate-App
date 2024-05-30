@@ -35,7 +35,7 @@ const Home = () => {
 
     return (
         <div className="container">
-            <h1 className="title">Welcome to the India's most trusted Real Estate Hub !</h1>
+            <h1 className="title">Welcome to the India's most trusted Real Estate Platform!</h1>
             <p className="subtitle">Find your dream home hassle-free.</p>
             <Link to="/login" className="link">Login</Link>
             <Link to="/register" className="link">Register</Link>
