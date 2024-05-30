@@ -12,8 +12,21 @@ const Login = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const validateForm = () => {
+        const { email, password } = formData;
+        if (!email || !password) {
+            return false;
+        }
+        return true;
+    };
+
     const handleSubmit = async e => {
         e.preventDefault();
+        if (!validateForm()) {
+            setError('All fields are required');
+            return;
+        }
+
         try {
             const res = await axios.post('/users/login', formData);
             const { userId, role } = res.data;
